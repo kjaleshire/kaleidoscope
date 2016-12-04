@@ -1,0 +1,24 @@
+project_name = kaleidoscope
+
+cc = clang++
+cflags = -Wall -Wpedantic -O2 -std=c++11
+llvm_flags = -I/Users/kja/dev/usr-local/include -fPIC -fvisibility-inlines-hidden -Wall -W -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wmissing-field-initializers -pedantic -Wno-long-long -Wcovered-switch-default -Wnon-virtual-dtor -Wdelete-non-virtual-dtor -fno-exceptions -fno-rtti -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -L/Users/kja/dev/usr-local/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names -lLLVMX86Disassembler -lLLVMX86AsmParser -lLLVMX86CodeGen -lLLVMSelectionDAG -lLLVMAsmPrinter -lLLVMCodeGen -lLLVMScalarOpts -lLLVMInstCombine -lLLVMInstrumentation -lLLVMProfileData -lLLVMTransformUtils -lLLVMBitWriter -lLLVMX86Desc -lLLVMMCDisassembler -lLLVMX86Info -lLLVMX86AsmPrinter -lLLVMX86Utils -lLLVMMCJIT -lLLVMExecutionEngine -lLLVMTarget -lLLVMAnalysis -lLLVMRuntimeDyld -lLLVMObject -lLLVMMCParser -lLLVMBitReader -lLLVMMC -lLLVMCore -lLLVMSupport -lcurses -lpthread -lz -lm
+
+rule cc
+  depfile = $out.d
+  command = $cc -MMD -MF $out.d $cflags $llvm_flags $in -o $out
+
+rule pch
+  command = $cc $cflags $llvm_flags -c $in
+
+build jit.h.gch: pch jit.h
+build ast.h.gch: pch ast.h
+build driver.h.gch: pch driver.h
+build log.h.gch: pch log.h
+build parser.h.gch: pch parser.h
+build $project_name: cc ast.cpp jit.cpp driver.cpp log.cpp parser.cpp
+# build $project_name: cc ast.cpp jit.cpp driver.cpp log.cpp parser.cpp | ast.h.gch jit.h.gch log.h.gch parser.h.gch
+
+build test: cc test_main.cpp
+
+default $project_name
