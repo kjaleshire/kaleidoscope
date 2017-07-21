@@ -8,7 +8,7 @@
 #include "llvm/IR/Module.h"
 #include "llvm/IR/Value.h"
 
-#include "llvm/examples/Kaleidoscope/include/KaleidoscopeJIT.h"
+#include "KaleidoscopeJIT.h"
 
 // Forward declarations
 class PrototypeAST;

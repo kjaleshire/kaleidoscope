@@ -27,7 +27,9 @@ enum Token {
   tok_in = -10,
 
   tok_binary = -11,
-  tok_unary = -12
+  tok_unary = -12,
+
+  tok_var = -13
 };
 
 extern std::map<char, int> BinopPrecedence;

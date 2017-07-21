@@ -79,6 +79,9 @@ void InitializeModuleAndPassManager() {
   TheFPM =
       llvm::make_unique<llvm::legacy::FunctionPassManager>(TheModule.get());
 
+  TheFPM->add(llvm::createPromoteMemoryToRegisterPass());
+  TheFPM->add(llvm::createInstructionCombiningPass());
+  TheFPM->add(llvm::createReassociatePass());
   TheFPM->add(llvm::createInstructionCombiningPass());
   TheFPM->add(llvm::createReassociatePass());
   TheFPM->add(llvm::createGVNPass());
