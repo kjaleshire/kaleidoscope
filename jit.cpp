@@ -18,8 +18,8 @@
 // ========================================================================
 
 std::unique_ptr<llvm::Module> TheModule;
-std::unique_ptr<llvm::legacy::FunctionPassManager> TheFPM;
-std::unique_ptr<llvm::orc::KaleidoscopeJIT> TheJIT;
+// std::unique_ptr<llvm::legacy::FunctionPassManager> TheFPM;
+// std::unique_ptr<llvm::orc::KaleidoscopeJIT> TheJIT;
 
 void HandleDefinition() {
   if (auto FnAST = ParseDefinition()) {
@@ -27,8 +27,8 @@ void HandleDefinition() {
       std::cerr << "Read function definition: ";
       FnIR->print(llvm::errs());
       std::cerr << "\n";
-      TheJIT->addModule(std::move(TheModule));
-      InitializeModuleAndPassManager();
+      // TheJIT->addModule(std::move(TheModule));
+      // InitializeModuleAndPassManager();
     }
   } else {
     getNextToken();
@@ -55,17 +55,19 @@ void HandleTopLevelExpression() {
       FnIR->print(llvm::errs());
       std::cerr << "\n";
 
-      auto H = TheJIT->addModule(std::move(TheModule));
-      InitializeModuleAndPassManager();
+      // auto H = TheJIT->addModule(std::move(TheModule));
+      // InitializeModuleAndPassManager();
 
-      auto ExprSymbol = TheJIT->findSymbol("__anon_expr");
-      assert(ExprSymbol && "Function not found");
+      // auto ExprSymbol = TheJIT->findSymbol("__anon_expr");
+      // assert(ExprSymbol && "Function not found");
 
-      double (*FP)() = (double (*)())(intptr_t)ExprSymbol.getAddress();
-      double output = FP();
-      std::cerr << "Evaluated to " << output << std::endl;
+      // double (*FP)() = (double (*)())(intptr_t)ExprSymbol.getAddress();
+      // double output = FP();
+      // std::cerr << "Evaluated to " << output << std::endl;
 
-      TheJIT->removeModule(H);
+      // TheJIT->removeModule(H);
+    } else {
+      fprintf(stderr, "Error generating code for top level expr");
     }
   } else {
     getNextToken();
@@ -74,17 +76,17 @@ void HandleTopLevelExpression() {
 
 void InitializeModuleAndPassManager() {
   TheModule = llvm::make_unique<llvm::Module>("my cool jit", TheContext);
-  TheModule->setDataLayout(TheJIT->getTargetMachine().createDataLayout());
+  // TheModule->setDataLayout(TheJIT->getTargetMachine().createDataLayout());
 
-  TheFPM =
-      llvm::make_unique<llvm::legacy::FunctionPassManager>(TheModule.get());
+  // TheFPM =
+  //     llvm::make_unique<llvm::legacy::FunctionPassManager>(TheModule.get());
 
-  TheFPM->add(llvm::createPromoteMemoryToRegisterPass());
-  TheFPM->add(llvm::createInstructionCombiningPass());
-  TheFPM->add(llvm::createReassociatePass());
-  TheFPM->add(llvm::createInstructionCombiningPass());
-  TheFPM->add(llvm::createReassociatePass());
-  TheFPM->add(llvm::createGVNPass());
-  TheFPM->add(llvm::createCFGSimplificationPass());
-  TheFPM->doInitialization();
+  // TheFPM->add(llvm::createPromoteMemoryToRegisterPass());
+  // TheFPM->add(llvm::createInstructionCombiningPass());
+  // TheFPM->add(llvm::createReassociatePass());
+  // TheFPM->add(llvm::createInstructionCombiningPass());
+  // TheFPM->add(llvm::createReassociatePass());
+  // TheFPM->add(llvm::createGVNPass());
+  // TheFPM->add(llvm::createCFGSimplificationPass());
+  // TheFPM->doInitialization();
 }

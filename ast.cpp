@@ -213,7 +213,7 @@ llvm::Function *FunctionAST::codegen() {
 
         llvm::verifyFunction(*TheFunction);
 
-        TheFPM->run(*TheFunction);
+        // TheFPM->run(*TheFunction);
 
         return TheFunction;
     }

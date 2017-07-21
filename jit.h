@@ -14,8 +14,8 @@
 class PrototypeAST;
 
 extern std::unique_ptr<llvm::Module> TheModule;
-extern std::unique_ptr<llvm::legacy::FunctionPassManager> TheFPM;
-extern std::unique_ptr<llvm::orc::KaleidoscopeJIT> TheJIT;
+// extern std::unique_ptr<llvm::legacy::FunctionPassManager> TheFPM;
+// extern std::unique_ptr<llvm::orc::KaleidoscopeJIT> TheJIT;
 
 void HandleDefinition();
 void HandleExtern();
