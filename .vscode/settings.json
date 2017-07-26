@@ -4,8 +4,11 @@
     "cstddef": "cpp",
     "exception": "cpp",
     "initializer_list": "cpp",
+    "memory": "cpp",
     "new": "cpp",
     "stdexcept": "cpp",
     "typeinfo": "cpp"
-  }
+  },
+
+  "C_Cpp.autocomplete": "Default"
 }
