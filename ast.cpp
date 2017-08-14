@@ -92,7 +92,7 @@ llvm::Value *VarExprAST::codegen() {
 
 llvm::Value *BinaryExprAST::codegen() {
     if(Op == '=') {
-        VariableExprAST *LHSE = dynamic_cast<VariableExprAST*>(LHS.get());
+        VariableExprAST *LHSE = static_cast<VariableExprAST*>(LHS.get());
         if(!LHSE)
             return LogErrorV("destination of '=' must be a variable");
 
